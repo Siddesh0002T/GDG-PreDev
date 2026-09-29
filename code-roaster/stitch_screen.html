@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Roaster — DevFest Nashik 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F8F4EC',
+            lavender: '#EFF2FB',
+            paleYellow: '#F7E3A8',
+            ink: '#141414',
+            mustard: '#EDB13E',
+            gBlue: '#4C80F0',
+            gRed: '#D9503F',
+            gGreen: '#4FA35A',
+            gYellow: '#EDB13E',
+            editorBg: '#171717',
+            editorInk: '#F7F3EA',
+            mutedInk: '#66625B'
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            devanagari: ['"Noto Sans Devanagari"', 'sans-serif']
+          },
+          boxShadow: {
+            brutal: '4px 4px 0 #141414',
+            brutalSm: '2px 2px 0 #141414',
+            brutalLg: '6px 6px 0 #141414',
+            pressed: '1px 1px 0 #141414'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F8F4EC;
+      color: #141414;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .brutal-border {
+      border: 2px solid #141414;
+    }
+    .brutal-border-3 {
+      border: 3px solid #141414;
+    }
+    .brutal-shadow {
+      box-shadow: 4px 4px 0 #141414;
+    }
+    .brutal-shadow-sm {
+      box-shadow: 2px 2px 0 #141414;
+    }
+    .brutal-btn {
+      transition: all 0.1s ease-in-out;
+    }
+    .brutal-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0 #141414;
+    }
+    .brutal-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0 #141414;
+    }
+    .code-editor-line {
+      counter-increment: line-number;
+    }
+    .code-editor-line::before {
+      content: counter(line-number, decimal-leading-zero);
+      display: inline-block;
+      width: 2.2rem;
+      margin-right: 1.25rem;
+      color: #55524B;
+      text-align: right;
+      user-select: none;
+    }
+    .rangoli-pattern {
+      background-image: radial-gradient(#141414 1.5px, transparent 1.5px);
+      background-size: 16px 16px;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-cream text-ink flex flex-col selection:bg-mustard selection:text-ink antialiased">
+
+  <!-- Top Floating Navbar -->
+  <header class="w-full pt-6 pb-2 px-4 sm:px-8 max-w-7xl mx-auto sticky top-0 z-50">
+    <nav class="bg-white/95 backdrop-blur-sm brutal-border brutal-shadow rounded-full h-16 sm:h-[70px] px-4 sm:px-8 flex items-center justify-between gap-2 sm:gap-4 transition-all">
+      
+      <!-- Left: GDG Nashik Brand -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center space-x-1.5 py-1 px-2.5 bg-cream brutal-border brutal-shadow-sm rounded-lg">
+          <!-- GDG 4-color brackets -->
+          <div class="flex items-center text-base sm:text-lg font-black tracking-tighter">
+            <span class="text-gRed select-none">&lt;</span>
+            <span class="text-gBlue select-none">/</span>
+            <span class="text-gGreen select-none">&gt;</span>
+          </div>
+          <div class="w-2 h-2 rounded-full bg-gYellow border border-ink"></div>
+        </div>
+        <div class="hidden md:flex flex-col text-left">
+          <span class="text-[12px] font-extrabold uppercase tracking-tight text-ink leading-tight">Google Developer Groups</span>
+          <span class="text-[11px] font-bold text-mutedInk tracking-wider uppercase">Nashik Chapter</span>
+        </div>
+      </div>
+
+      <!-- Center: Wordmark -->
+      <div class="flex items-center gap-2">
+        <div class="relative flex items-center bg-cream px-3.5 py-1.5 rounded-full brutal-border brutal-shadow-sm">
+          <span class="font-extrabold text-sm sm:text-base tracking-tight uppercase flex items-center gap-1.5">
+            Code Roaster
+            <span class="inline-block px-1.5 py-0.2 bg-mustard text-[10px] font-black rounded brutal-border">v2</span>
+          </span>
+          <span class="ml-1 text-base select-none">🌶️</span>
+        </div>
+      </div>
+
+      <!-- Right: DevFest Nashik '26 Badge -->
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5 bg-[#EFF2FB] px-3 py-1.5 rounded-full brutal-border brutal-shadow-sm text-[11px] sm:text-xs font-black uppercase tracking-wider text-ink">
+          <span class="w-2 h-2 rounded-full bg-mustard border border-ink"></span>
+          <span>DevFest '26</span>
+          <span class="hidden sm:inline text-mutedInk">Nashik</span>
+        </div>
+      </div>
+
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-8 pt-8 pb-12 w-full">
+    
+    <div class="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+      <!-- Eyebrow -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-paleYellow brutal-border brutal-shadow-sm text-xs sm:text-sm font-mono font-bold tracking-widest uppercase mb-3">
+        <span class="w-2 h-2 rounded-full bg-gRed animate-pulse"></span>
+        <span>CODE BOL RAHA HAI · <span class="font-devanagari font-bold text-ink">मला वाचवा!</span></span>
+      </div>
+
+      <!-- Main Title -->
+      <h1 class="text-4xl sm:text-6xl font-black tracking-tight uppercase text-ink leading-tight sm:leading-none mb-3">
+        Code Roaster
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="text-base sm:text-xl font-bold text-ink/90 tracking-tight max-w-xl mx-auto mb-3">
+        Paste your code. Pick your roast. Get humbled. Get the fix.
+      </p>
+
+      <!-- Microcopy badge -->
+      <div class="inline-flex items-center gap-2 text-xs font-mono font-medium text-mutedInk bg-white px-3 py-1 rounded-full border border-ink/40">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-gBlue"></span>
+        <span>Desi debugging, powered by Gemini 2.5</span>
+        <span class="text-ink font-bold">· Nashik Special</span>
+      </div>
+    </div>
+
+    <!-- Main Tool Outer Card -->
+    <div class="bg-white brutal-border-3 brutal-shadow rounded-[24px] overflow-hidden flex flex-col transition-all">
+
+      <!-- Control Bar across full width -->
+      <div class="bg-cream border-b-2 border-ink p-3.5 sm:p-5 flex flex-wrap items-center justify-between gap-4">
+        
+        <!-- Controls Group -->
+        <div class="flex flex-wrap items-center gap-2.5 sm:gap-4 text-xs font-mono font-bold">
+          
+          <!-- Roast Level Segmented Control -->
+          <div class="flex flex-col gap-1">
+            <span class="text-[10px] uppercase font-bold tracking-widest text-mutedInk">ROAST LEVEL</span>
+            <div class="inline-flex bg-white brutal-border rounded-full p-1 shadow-sm">
+              <button class="px-3 py-1 rounded-full font-bold transition hover:bg-cream">Halka</button>
+              <button class="px-3.5 py-1 rounded-full bg-mustard text-ink brutal-border brutal-shadow-sm font-black flex items-center gap-1">
+                Tikha 🔥
+              </button>
+              <button class="px-3 py-1 rounded-full font-bold transition hover:bg-cream">Zanzanit ⚡</button>
+            </div>
+          </div>
+
+          <!-- Persona Selector -->
+          <div class="flex flex-col gap-1">
+            <span class="text-[10px] uppercase font-bold tracking-widest text-mutedInk">PERSONA</span>
+            <div class="relative">
+              <select class="appearance-none bg-white brutal-border rounded-xl px-3.5 py-1.5 pr-8 text-xs font-bold text-ink cursor-pointer focus:outline-none focus:ring-2 focus:ring-mustard shadow-sm">
+                <option selected>Stand-up Roaster</option>
+                <option>Sharma ji ka Beta</option>
+                <option>Strict Professor</option>
+                <option>Hostel Bhau</option>
+                <option>Campus Recruiter</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-ink font-black">
+                ▼
+              </div>
+            </div>
+          </div>
+
+          <!-- Language Selector -->
+          <div class="flex flex-col gap-1">
+            <span class="text-[10px] uppercase font-bold tracking-widest text-mutedInk">LANGUAGE</span>
+            <div class="relative">
+              <select class="appearance-none bg-white brutal-border rounded-xl px-3.5 py-1.5 pr-8 text-xs font-bold text-ink cursor-pointer focus:outline-none focus:ring-2 focus:ring-mustard shadow-sm">
+                <option selected>Python (Auto-detect)</option>
+                <option>JavaScript / TypeScript</option>
+                <option>Go</option>
+                <option>C++ / Rust</option>
+                <option>Java</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-ink font-black">
+                ▼
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Toggle Button -->
+          <div class="flex flex-col gap-1">
+            <span class="text-[10px] uppercase font-bold tracking-widest text-mutedInk">CONTEXT</span>
+            <button class="border-2 border-dashed border-ink/80 hover:border-ink hover:bg-white px-3 py-1.5 rounded-xl text-xs font-mono font-bold text-ink flex items-center gap-1.5 transition">
+              <span class="text-gRed font-extrabold">+</span> ERROR MESSAGE
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Primary CTA Button -->
+        <div class="w-full sm:w-auto">
+          <button class="w-full sm:w-auto brutal-btn bg-mustard brutal-border brutal-shadow rounded-full px-6 sm:px-8 py-3 text-sm sm:text-base font-black tracking-tight uppercase flex items-center justify-center gap-2 cursor-pointer">
+            <span>Roast Me / <span class="font-devanagari font-bold">भाजून काढ</span></span>
+            <span class="text-xl">🔥</span>
+            <span class="font-mono">→</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Split Pane Container: 48% / 52% on Desktop -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
+
+        <!-- Left Pane: Code Editor (approx 48% -> col-span-6 or 5.75) -->
+        <div class="lg:col-span-6 bg-editorBg flex flex-col border-b-2 lg:border-b-0 lg:border-r-2 border-ink text-editorInk font-mono">
+          
+          <!-- Editor Sub-Header -->
+          <div class="px-5 py-3.5 bg-[#202020] border-b border-[#303030] flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-[11px] font-bold tracking-widest uppercase text-mustard bg-mustard/15 px-2 py-0.5 rounded border border-mustard/30">
+                INPUT // SRC
+              </span>
+              <span class="text-xs font-bold text-[#E5E0D5] tracking-wider uppercase">YOUR CODE</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-gGreen inline-block"></span>
+              <span class="text-[11px] text-[#A09C94] uppercase tracking-wider">Ready to roast</span>
+            </div>
+          </div>
+
+          <!-- Code Workspace with Line Numbers -->
+          <div class="p-4 sm:p-6 flex-grow overflow-x-auto text-[13px] sm:text-[14px] leading-relaxed selection:bg-mustard selection:text-ink font-mono" style="counter-reset: line-number;">
+            
+            <div class="code-editor-line"><span class="text-[#E06C75]">def</span> <span class="text-[#61AFEF]">calculate_discount</span>(cart_total, user_role):</div>
+            <div class="code-editor-line text-mutedInk">    <span class="text-[#5c6370] italic"># Nashik DevFest special promo bug</span></div>
+            <div class="code-editor-line">    discount = <span class="text-[#D19A66]">0.0</span></div>
+            <div class="code-editor-line">    <span class="text-[#E06C75]">if</span> user_role = <span class="text-[#98C379]">"VIP_STUDENT"</span>:</div>
+            <div class="code-editor-line text-gRed font-bold bg-gRed/10 -mx-4 px-4 py-0.5 border-l-2 border-gRed">        discount = cart_total * <span class="text-[#D19A66]">1.20</span>  <span class="text-[#5c6370] italic"># oops paying customer extra!</span></div>
+            <div class="code-editor-line">    <span class="text-[#E06C75]">elif</span> user_role == <span class="text-[#98C379]">"SPEAKER"</span>:</div>
+            <div class="code-editor-line">        discount = cart_total</div>
+            <div class="code-editor-line">    <span class="text-[#E06C75]">return</span> cart_total - discount</div>
+            
+            <div class="mt-4 pt-4 text-xs text-[#666] border-t border-[#2A2A2A] flex items-center gap-2">
+              <span class="text-mustard">💡 Tip:</span>
+              <span>Double assignment `= ` instead of `==` on line 04 will trigger instant combustion.</span>
+            </div>
+
+          </div>
+
+          <!-- Editor Footer Bar -->
+          <div class="px-5 py-3 bg-[#1B1B1B] border-t border-[#303030] flex flex-wrap items-center justify-between text-xs text-[#9E9A90] font-mono gap-2">
+            <div class="flex items-center gap-4">
+              <button class="hover:text-mustard text-white font-bold transition flex items-center gap-1">
+                <span>⚡</span> SAMPLE BUG
+              </button>
+              <span class="text-[#444]">|</span>
+              <button class="hover:text-gRed transition">
+                CLEAR
+              </button>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-[11px] text-mutedInk">Python · UTF-8</span>
+              <span class="bg-[#262626] px-2 py-0.5 rounded text-white font-medium">1,204 / 12,000 chars</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Pane: Audit // Report Empty State (lg:col-span-6) -->
+        <div class="lg:col-span-6 bg-[#FCFAF5] flex flex-col justify-between">
+          
+          <!-- Report Sub-Header -->
+          <div class="px-5 py-3.5 bg-cream border-b-2 border-ink flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-[11px] font-mono font-bold tracking-widest uppercase bg-lavender px-2 py-0.5 rounded border border-ink text-ink">
+                AUDIT // REPORT
+              </span>
+              <span class="text-xs font-mono font-bold text-ink tracking-wider uppercase">ROAST REPORT</span>
+            </div>
+            <span class="text-[11px] font-mono font-bold uppercase text-mutedInk bg-white px-2 py-0.5 rounded brutal-border-sm">
+              Status: Awaiting Code
+            </span>
+          </div>
+
+          <!-- Empty State Body with Warli Motif -->
+          <div class="p-8 sm:p-12 flex-grow flex flex-col items-center justify-center text-center">
+            
+            <!-- Graphic Illustration: Warli Tilted Diamond Icon -->
+            <div class="relative mb-6">
+              <!-- Outer glowing shadow element -->
+              <div class="w-20 h-20 bg-paleYellow brutal-border brutal-shadow rounded-2xl rotate-12 flex items-center justify-center transform transition-transform hover:rotate-6">
+                <!-- Inner Tilted Diamond Icon (Warli inspired ◇) -->
+                <div class="w-10 h-10 bg-mustard brutal-border -rotate-12 flex items-center justify-center">
+                  <span class="font-mono text-xl font-black text-ink">?_?</span>
+                </div>
+              </div>
+              <!-- Mini accent sparks -->
+              <span class="absolute -top-2 -right-3 text-gRed font-black text-xl animate-bounce">✦</span>
+              <span class="absolute -bottom-1 -left-3 text-gBlue font-black text-lg">✦</span>
+            </div>
+
+            <!-- Empty State Title -->
+            <h3 class="text-2xl sm:text-3xl font-black tracking-tight text-ink mb-2">
+              Your code is suspiciously quiet.
+            </h3>
+
+            <!-- Empty State Descriptive Copy -->
+            <p class="text-mutedInk font-medium text-sm sm:text-base max-w-sm mb-6 leading-relaxed">
+              Paste some code on the left and let's find out why the compiler is sweating profusely.
+            </p>
+
+            <!-- Sample Action Button -->
+            <button class="brutal-btn bg-white hover:bg-cream text-ink brutal-border brutal-shadow rounded-full px-5 py-2.5 text-xs sm:text-sm font-mono font-extrabold uppercase tracking-wide flex items-center gap-2">
+              <span>[ TRY SAMPLE BUG → ]</span>
+            </button>
+
+            <!-- Playful local quote footer -->
+            <div class="mt-8 pt-6 border-t border-dashed border-ink/20 w-full max-w-xs flex flex-col items-center gap-1">
+              <span class="text-[11px] font-mono uppercase tracking-widest text-mutedInk">Local Weather Update:</span>
+              <span class="text-xs font-bold text-ink italic">"Nashik misal spicy hai, par yeh roast aur zanzanit hoga."</span>
+            </div>
+
+          </div>
+
+          <!-- Right Pane Bottom Bar -->
+          <div class="px-5 py-3 bg-cream border-t-2 border-ink flex items-center justify-between text-xs font-mono text-mutedInk">
+            <span class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-gYellow border border-ink"></span>
+              Gemini 2.5 Flash Roaster
+            </span>
+            <span class="font-bold text-ink">DevFest Nashik Edition</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Live Preview Teaser / Severity Card Samples (Shows what a roast looks like) -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+      
+      <!-- Feature Card 1 -->
+      <div class="bg-white p-4 rounded-2xl brutal-border brutal-shadow flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-gRed/20 text-gRed brutal-border flex items-center justify-center font-mono font-bold text-sm shrink-0">
+          !
+        </div>
+        <div>
+          <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-gRed">SAVAGE ACCURACY</span>
+          <h4 class="font-extrabold text-sm text-ink">Zero Generic AI Fluff</h4>
+          <p class="text-xs text-mutedInk mt-0.5">Strictly roasts the logic defects, syntax sins, and architectural panic.</p>
+        </div>
+      </div>
+
+      <!-- Feature Card 2 -->
+      <div class="bg-white p-4 rounded-2xl brutal-border brutal-shadow flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-mustard/30 text-ink brutal-border flex items-center justify-center font-mono font-bold text-sm shrink-0">
+          ★
+        </div>
+        <div>
+          <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-mustard">STAMPED AUDIT</span>
+          <h4 class="font-extrabold text-sm text-ink">Score Stamp Certificate</h4>
+          <p class="text-xs text-mutedInk mt-0.5">Physical ink rubber-stamp rating ready for quick WhatsApp & LinkedIn bragging.</p>
+        </div>
+      </div>
+
+      <!-- Feature Card 3 -->
+      <div class="bg-white p-4 rounded-2xl brutal-border brutal-shadow flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-gGreen/20 text-gGreen brutal-border flex items-center justify-center font-mono font-bold text-sm shrink-0">
+          ✓
+        </div>
+        <div>
+          <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-gGreen">REDEMPTION ARC</span>
+          <h4 class="font-extrabold text-sm text-ink">Actionable Copyable Fix</h4>
+          <p class="text-xs text-mutedInk mt-0.5">After you get roasted, copy the production-ready code with single tap.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Rangoli / Warli Decorative Border Strip -->
+  <div class="w-full bg-paleYellow border-y-2 border-ink py-2 overflow-hidden select-none">
+    <div class="flex justify-around items-center text-xs font-black tracking-widest text-ink/80">
+      <span>▲ ▼ ▲ ▼</span>
+      <span class="text-gRed">•</span>
+      <span>▲ ▼ ▲ ▼</span>
+      <span class="text-gBlue">•</span>
+      <span>▲ ▼ ▲ ▼</span>
+      <span class="text-gGreen">•</span>
+      <span>▲ ▼ ▲ ▼</span>
+      <span class="text-mustard">•</span>
+      <span>▲ ▼ ▲ ▼</span>
+      <span class="text-gRed">•</span>
+      <span>▲ ▼ ▲ ▼</span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-cream py-8 px-4 sm:px-8 border-t border-ink/10 text-center font-mono text-xs text-mutedInk">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-mustard brutal-border-sm"></span>
+        <span class="font-bold text-ink">Code Roaster (Desi Edition)</span>
+        <span>— DevFest Nashik 2026</span>
+      </div>
+      <div>
+        Built with ❤️ by <span class="font-bold text-ink underline decoration-mustard decoration-2">Google Developer Groups Nashik</span> · Powered by Gemini
+      </div>
+      <div class="text-[11px] text-mutedInk">
+        नाशिकची मिसळ आणि कोड रोस्टर, दोन्ही झणझणीत! 🔥
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

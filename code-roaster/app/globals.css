@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #F8F4EC;
+  --color-lavender: #EFF2FB;
+  --color-pale-yellow: #F7E3A8;
+  --color-ink: #141414;
+  --color-mustard: #EDB13E;
+  --color-g-blue: #4C80F0;
+  --color-g-red: #D9503F;
+  --color-g-green: #4FA35A;
+  --color-g-yellow: #EDB13E;
+  --color-muted-ink: #66625B;
+  --color-editor-bg: #171717;
+  --color-editor-ink: #F7F3EA;
+  --color-canvas: #F8F4EC;
+  --color-panel: #FFFFFF;
+  --color-subtle: #E6E6E2;
+  --color-frame: #141414;
+  --color-accent: #EDB13E;
+
+  --font-display: var(--font-space-grotesk), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+
+  --shadow-brutal: 4px 4px 0 #141414;
+  --shadow-brutal-sm: 2px 2px 0 #141414;
+  --shadow-brutal-lg: 6px 6px 0 #141414;
+  --shadow-pressed: 1px 1px 0 #141414;
+}
+
+:root {
+  --cream: #F8F4EC;
+  --ink: #141414;
+  --mustard: #EDB13E;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-display);
+}
+
+/* Neo-brutalist helper classes */
+.brutal-border {
+  border: 2px solid #141414;
+}
+
+.brutal-border-3 {
+  border: 3px solid #141414;
+}
+
+.brutal-shadow {
+  box-shadow: 4px 4px 0 #141414;
+}
+
+.brutal-shadow-sm {
+  box-shadow: 2px 2px 0 #141414;
+}
+
+.brutal-shadow-lg {
+  box-shadow: 6px 6px 0 #141414;
+}
+
+.brutal-btn {
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brutal-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 #141414;
+}
+
+.brutal-btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 #141414;
+}
+
+/* Subtle drafting grid background for DevFest theme */
+.drafting-grid {
+  background-image: 
+    linear-gradient(to right, rgba(20, 20, 20, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 20, 20, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Rubber Stamp Styling for Roast Score */
+.rubber-stamp {
+  border: 3px solid #141414;
+  box-shadow: 4px 4px 0 #141414;
+  transform: rotate(-3deg);
+  transition: transform 0.2s ease;
+}
+
+.rubber-stamp:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #202020;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #EDB13E;
+}
